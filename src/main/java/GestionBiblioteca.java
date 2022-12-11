@@ -19,12 +19,12 @@ public class GestionBiblioteca {
         boolean seguirMenu = true;
 
         while (seguirMenu) {
-            opcionMenu = validarOpcion("***Indica la opción que deseas hacer***"
-                    + "\nIL - Añadir un libro y autor"
-                    + "\nML - Modificar el número de páginas de un libro"
-                    + "\nCT - Mostrar todos los libros"
-                    + "\nCL - Mostrar libros con más de 300 páginas"
-                    + "\nS  - Salir del programa");
+            opcionMenu = validarOpcion("\n***Indica la opción que deseas hacer***"
+                    + "\nIL - Añadir un libro y autor."
+                    + "\nML - Modificar el número de páginas de un libro."
+                    + "\nCT - Mostrar todos los libros."
+                    + "\nCL - Mostrar libros con más de 300 páginas."
+                    + "\nS  - Salir del programa.");
 
             if (opcionMenu.equalsIgnoreCase(OPCIONES_MENU[0])) addLibroAutor();
             else if (opcionMenu.equalsIgnoreCase(OPCIONES_MENU[1])) modNumPag();
@@ -42,10 +42,9 @@ public class GestionBiblioteca {
         int numPag = 300;
         ArrayList<Libro> listaLibLarg = accesoDB.consultarNumPag(numPag);
 
-        if (listaLibLarg.isEmpty()) {
-            System.out.println("\nNo se ha encontrado libros con más de " + numPag + " páginas");
-        } else {
-            System.out.println("\nListado de libros con más de " + numPag + " páginas");
+        if (listaLibLarg.isEmpty()) System.out.println("\nNo se ha encontrado libros con más de " + numPag + " páginas.");
+        else {
+            System.out.println("\nListado de libros con más de " + numPag + " páginas.");
             for (Libro libro : listaLibLarg) {
                 System.out.println(libro);
             }
@@ -56,9 +55,8 @@ public class GestionBiblioteca {
     private static void consutarTodosLibros() {
         ArrayList<Libro> listaLibros = accesoDB.consultarTodosDatos();
 
-        if (listaLibros.isEmpty()) {
-            System.out.println("No se han encontrado datos");
-        } else {
+        if (listaLibros.isEmpty()) System.out.println("No se han encontrado datos.");
+        else {
             System.out.println("Se han encontrado " + listaLibros.size() + " libros:");
             for (Libro libro : listaLibros) {
                 System.out.println(libro);
@@ -72,7 +70,9 @@ public class GestionBiblioteca {
         int nuevoNumPag = validadInt("Introduce el nuevo número de páginas:");
 
         int cantLibMod = accesoDB.modificarNumPag(titulo,nuevoNumPag);
-        System.out.println("Se han modificado las páginas de " + cantLibMod + " libro");
+        if (cantLibMod == 1) System.out.println("Se han modificado las páginas de " + cantLibMod + " libro.");
+        else if (cantLibMod > 1) System.out.println("Se han modificado las páginas de " + cantLibMod + " libros.");
+        else System.out.println("No se han modificado las páginas de ningún libro.");
     }
 
 
@@ -86,7 +86,7 @@ public class GestionBiblioteca {
 
     private static Libro validarLibro(Autor autor) {
         String titulo = validarString("Introduce el título del libro:");
-        int numPag = validadInt("Introduce el número de páginas");
+        int numPag = validadInt("Introduce el número de páginas:");
 
         return new Libro(titulo, autor, numPag);
     }
@@ -94,25 +94,19 @@ public class GestionBiblioteca {
 
     private static Autor comprobarAutor() {
         Autor autor;
-        String nombre;
-        String iniciales;
-        String nacionalidad;
-        boolean autorEncontrado;
-
-        nombre = validarString("Introduce el nombre del autor:");
-        autorEncontrado = accesoDB.comprobarNomAutor(nombre);
+        String nombre = validarString("Introduce el nombre del autor:");
+        boolean autorEncontrado = accesoDB.comprobarNomAutor(nombre);
 
         if (!autorEncontrado) {
-            iniciales = validarString("Introduce las iniciales del autor:");
-            nacionalidad = validarString("Introduce la nacionalidad del autor:");
+            String iniciales = validarString("Introduce las iniciales del autor:");
+            String nacionalidad = validarString("Introduce la nacionalidad del autor:");
 
-            autor = new Autor(iniciales, nombre, nacionalidad);
+            autor = new Autor(iniciales.toUpperCase(), nombre, nacionalidad);
             accesoDB.insertarAutor(autor);
         } else {
-            System.out.println("Ese autor ya estaba registrado.");
-            autor = accesoDB.recuperarAutor(nombre);
+            System.out.println("Ese autor ya estaba registrado. Pasemos con los datos del libro.");
+            autor = accesoDB.recuperarAutorPorNombre(nombre);
         }
-
         return autor;
     }
 
@@ -126,10 +120,10 @@ public class GestionBiblioteca {
                 System.out.println(mensaje);
                 num = Integer.parseInt(sc.nextLine());
                 if (num >= 100 && num <= 1000) valNoK = false;
-                else System.out.println("Valor no válido");
+                else System.out.println("Valor no válido.");
 
             } catch (NumberFormatException e) {
-                System.out.println("Debe introducirse un número");
+                System.out.println("Debe introducirse un número.");
             }
         }
         return num;
@@ -146,7 +140,6 @@ public class GestionBiblioteca {
             if (cadena.isEmpty()) System.out.println("Valor no válido. Prueba de nuevo:");
             else cadenaOk = true;
         }
-
         return cadena;
     }
 
@@ -162,14 +155,8 @@ public class GestionBiblioteca {
             if (opcion.equalsIgnoreCase(OPCIONES_MENU[0]) || opcion.equalsIgnoreCase(OPCIONES_MENU[1]) || opcion.equalsIgnoreCase(OPCIONES_MENU[2])
                     || opcion.equalsIgnoreCase(OPCIONES_MENU[3]) || opcion.equalsIgnoreCase(OPCIONES_MENU[4])) {
                 continuar = false;
-            } else {
-                System.out.println("Opción de menú no válida");
-
-            }
+            } else System.out.println("Opción de menú no válida.");
         }
-
         return opcion;
     }
-
-
 }

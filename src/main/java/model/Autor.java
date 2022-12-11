@@ -2,10 +2,6 @@ package model;
 
 public class Autor {
 
-    public static final String ATR_INI = "iniciales";
-    public static final String ATR_NOMBRE = "nombre";
-    public static final String ATR_NACIONALIDAD = "nacionalidad";
-
     private String iniciales;
     private String nombre;
     private String nacionalidad;
@@ -24,7 +20,7 @@ public class Autor {
 
     @Override
     public String toString() {
-        return "Autor [iniciales=" + iniciales + ", nombre=" + nombre + ", nacionalidad=" + nacionalidad + "]";
+        return "Autor -> Iniciales: " + iniciales + ". Nombre: " + nombre + ". Nacionalidad: " + nacionalidad;
     }
 
 

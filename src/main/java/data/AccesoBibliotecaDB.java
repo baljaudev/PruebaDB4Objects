@@ -41,28 +41,21 @@ public class AccesoBibliotecaDB {
 
 
     public boolean comprobarNomAutor(String nombre) {
-        //construcror por defecto:
+        //constructor por defecto:
         Autor autorNomb = new Autor();
         autorNomb.setNombre(nombre);
 
         //Busca por el filtro que le hemos puesto:
         ObjectSet<Autor> setAutores = db.queryByExample(autorNomb);
 
-        //para contabilizar si ha encontrado el autor:
-        boolean autorEncontrado = false;
-
-        //Si encuentra autor para recuperar su 'id interno'. Solo entra si setAutores tiene dato
-        if (setAutores.hasNext()) {
-            //Y cambiamos a true, porque ha encontrado un dato
-            autorEncontrado = true;
-        }
-
-        return autorEncontrado;
+        //Si el 'setAutores' tiene dato es porque la query ha encontrado un Objeto con ese nombre.
+        //El 'hasNext()' devolverá 'true' o 'false' si el objeto tiene elementos o no
+        return setAutores.hasNext();
     }
 
 
     public ArrayList<Libro> consultarTodosDatos() {
-        ArrayList<Libro> listaLibros = new ArrayList<Libro>();
+        ArrayList<Libro> listaLibros = new ArrayList<>();
         ObjectSet<Libro> setLibros = db.queryByExample(Libro.class);
         listaLibros.addAll(setLibros);
 
@@ -100,7 +93,7 @@ public class AccesoBibliotecaDB {
     }
 
 
-    public Autor recuperarAutor(String nombre) {
+    public Autor recuperarAutorPorNombre(String nombre) {
         Autor autorNomb = new Autor();
         autorNomb.setNombre(nombre);
 
@@ -114,6 +107,4 @@ public class AccesoBibliotecaDB {
 
         return autorNomb;
     }
-
-
 }

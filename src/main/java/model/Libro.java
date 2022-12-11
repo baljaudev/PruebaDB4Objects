@@ -2,8 +2,6 @@ package model;
 
 public class Libro {
 
-    public static final String ATR_TITULO = "nombre";
-    public static final String ATR_AUTOR = "autor";
     public static final String ATR_NUM_PAG = "numPag";
 
     private String titulo;
@@ -24,7 +22,10 @@ public class Libro {
 
     @Override
     public String toString() {
-        return "Libro [titulo=" + titulo + ", autor=" + autor + ", numPag=" + numPag + "]";
+        return "\n***Libro*** " +
+                "\nTitulo: " + titulo +
+                "\nNúmero de páginas: " + numPag +
+                "\nAutor: " + autor;
     }
 
 
